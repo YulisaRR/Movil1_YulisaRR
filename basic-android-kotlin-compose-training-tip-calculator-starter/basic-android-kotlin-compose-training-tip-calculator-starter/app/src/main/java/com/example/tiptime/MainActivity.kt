@@ -15,6 +15,9 @@
  */
 package com.example.tiptime
 
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.material3.TextField
@@ -91,17 +94,16 @@ private fun calculateTip(amount: Double, tipPercent: Double = 15.0): String {
 @Composable
 val amountInput = "0"
 TextField(
-value = amountInput,
-onValueChange = {},
+value = amountInput,onValueChange = {},
 )
 var amountInput: MutableState<String> = mutableStateOf("0")
 
 @Composable
 fun EditNumberField(modifier: Modifier = Modifier) {
-    var amountInput = mutableStateOf("0")
+    var amountInput by remember { mutableStateOf("") }
     TextField(
-        value = amountInput.value,
-        onValueChange = { amountInput.value = it },
+        value = amountInput,
+        onValueChange = { amountInput = it },
         modifier = modifier
     )
 }
