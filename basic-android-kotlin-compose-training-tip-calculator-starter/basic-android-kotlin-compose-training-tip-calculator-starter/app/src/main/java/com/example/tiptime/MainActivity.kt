@@ -15,7 +15,6 @@
  */
 package com.example.tiptime
 
-
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -57,7 +56,6 @@ import com.example.tiptime.ui.theme.TipTimeTheme
 import java.text.NumberFormat
 
 
-
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,23 +72,16 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-var tipInput by remember { mutableStateOf("") }
-@Composable
-fun EditNumberField(
-label = R.string.how_was_the_service,
-value = tipInput,
-onValueChanged = { tipInput = it },
-modifier = Modifier.padding(bottom = 32.dp).fillMaxWidth()
-)
+
 @Composable
 fun TipTimeLayout() {
     var amountInput by remember { mutableStateOf("") }
     val amount = amountInput.toDoubleOrNull() ?: 0.0
     var tipInput by remember { mutableStateOf("") }
     val tipPercent = tipInput.toDoubleOrNull() ?: 0.0
+    var roundUp by remember { mutableStateOf(false) }
 
-
-    val tip = calculateTip(amount, tipPercent)
+    val tip = calculateTip(amount, tipPercent, roundUp)
 
     Column(
         modifier = Modifier.padding(40.dp).verticalScroll(rememberScrollState()),
@@ -125,13 +116,38 @@ fun TipTimeLayout() {
                 imeAction = ImeAction.Done
             )
         )
-
+        RoundTheTipRow(
+            roundUp = roundUp,
+            onRoundUpChanged = { roundUp = it },
+            modifier = Modifier.padding(bottom = 32.dp)
+        )
         Text(
             text = stringResource(R.string.tip_amount, tip),
             style = MaterialTheme.typography.displaySmall
         )
     }
 }
+
+@Composable
+fun EditNumberField(
+    @StringRes label: Int,
+    @DrawableRes leadingIcon: Int,
+    keyboardOptions: KeyboardOptions,
+    value: String,
+    onValueChanged: (String) -> Unit,
+    modifier: Modifier
+) {
+    TextField(
+        value = value,
+        leadingIcon = { Icon(painter = painterResource(id = leadingIcon), null) },
+        singleLine = true,
+        modifier = modifier,
+        onValueChange = onValueChanged,
+        label = { Text(stringResource(label)) },
+        keyboardOptions = keyboardOptions,
+    )
+}
+
 @Composable
 fun RoundTheTipRow(roundUp: Boolean,
                    onRoundUpChanged: (Boolean) -> Unit,
@@ -143,62 +159,15 @@ fun RoundTheTipRow(roundUp: Boolean,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(text = stringResource(R.string.round_up_tip))
-    }
-    Switch(
-        checked = roundUp,
-        onCheckedChange = onRoundUpChanged,
-    )
-}
-
-@Composable
-fun TipTimeLayout() {
-    var amountInput by remember { mutableStateOf("") }
-    var tipInput by remember { mutableStateOf("") }
-    var roundUp by remember { mutableStateOf(false) }
-    val amount = amountInput.toDoubleOrNull() ?: 0.0
-    val tipPercent = tipInput.toDoubleOrNull() ?: 0.0
-    val tip = calculateTip(amount, tipPercent, roundUp)
-
-    Column(
-        modifier = Modifier.padding(40.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text(
-            text = stringResource(R.string.calculate_tip),
-            modifier = Modifier
-                .padding(bottom = 16.dp)
-                .align(alignment = Alignment.Start)
-        )
-        EditNumberField(
-            label = R.string.bill_amount,
-            value = amountInput,
-            onValueChanged = { amountInput = it },
-            modifier = Modifier
-                .padding(bottom = 32.dp)
+        Switch(
+            checked = roundUp,
+            onCheckedChange = onRoundUpChanged,
+            modifier = modifier
                 .fillMaxWidth()
+                .wrapContentWidth(Alignment.End),
         )
-        EditNumberField(
-            label = R.string.how_was_the_service,
-            value = tipInput,
-            onValueChanged = { tipInput = it },
-            modifier = Modifier
-                .padding(bottom = 32.dp)
-                .fillMaxWidth()
-        )
-        RoundTheTipRow(
-            roundUp = roundUp,
-            onRoundUpChanged = { roundUp = it },
-            modifier = Modifier.padding(bottom = 32.dp)
-        )
-        Text(
-            text = stringResource(R.string.tip_amount, tip),
-            style = MaterialTheme.typography.displaySmall
-        )
-        Spacer(modifier = Modifier.height(150.dp))
     }
 }
-
 
 /**
  * Calculates the tip based on the user input and format the tip amount
