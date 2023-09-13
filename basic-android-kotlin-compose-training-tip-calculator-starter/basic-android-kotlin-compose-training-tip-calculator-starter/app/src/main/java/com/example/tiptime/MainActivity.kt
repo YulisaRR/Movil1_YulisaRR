@@ -73,7 +73,14 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
+var tipInput by remember { mutableStateOf("") }
+@Composable
+fun EditNumberField(
+label = R.string.how_was_the_service,
+value = tipInput,
+onValueChanged = { tipInput = it },
+modifier = Modifier.padding(bottom = 32.dp).fillMaxWidth()
+)
 @Composable
 fun TipTimeLayout() {
     var amountInput by remember { mutableStateOf("") }
