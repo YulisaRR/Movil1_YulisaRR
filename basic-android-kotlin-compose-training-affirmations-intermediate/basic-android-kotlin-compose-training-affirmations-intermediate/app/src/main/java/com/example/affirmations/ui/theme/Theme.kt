@@ -31,15 +31,15 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
-    surfaceVariant = md_theme_dark_surfaceVariant,
-    onSurfaceVariant = md_theme_dark_onSurfaceVariant,
-    background = md_theme_dark_background
+    primary = primary_dark,
+    secondary = secondary_dark,
+    tertiary = tertiary_dark
 )
 
 private val LightColorScheme = lightColorScheme(
-    surfaceVariant = md_theme_light_surfaceVariant,
-    onSurfaceVariant = md_theme_light_onSurfaceVariant,
-    background = md_theme_light_background
+    primary = primary_light,
+    secondary = secondary_light,
+    tertiary = tertiary_light
 )
 
 @Composable
