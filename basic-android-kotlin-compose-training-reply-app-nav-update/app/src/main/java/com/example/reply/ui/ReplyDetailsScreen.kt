@@ -53,6 +53,8 @@ fun ReplyDetailsScreen(
     replyUiState: ReplyUiState,
     onBackPressed: () -> Unit,
     modifier: Modifier = Modifier,
+    isFullScreen: Boolean,
+    onBackButtonClicked: () -> Unit,
 ) {
     BackHandler {
         onBackPressed()
