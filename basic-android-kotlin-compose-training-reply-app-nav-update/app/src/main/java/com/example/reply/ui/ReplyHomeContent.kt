@@ -111,12 +111,13 @@ fun ReplyListAndDetailContent(
             }
         }
         val activity = LocalContext.current as Activity
+
         ReplyDetailsScreen(
             replyUiState = replyUiState,
             onBackPressed = {},
             modifier = Modifier.weight(1f),
             isFullScreen = true,
-            onBackButtonClicked = onDetailScreenBackPressed
+
         )
     }
 }

@@ -90,37 +90,39 @@ private fun ReplyDetailsScreenTopBar(
     replyUiState: ReplyUiState,
     modifier: Modifier = Modifier
 ) {
-    Row(
-        modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically,
+    LazyColumn(
+        modifier = modifier
+            .fillMaxSize()
+            .background(color = MaterialTheme.colorScheme.inverseOnSurface)
+            .padding(top = dimensionResource(R.dimen.detail_card_list_padding_top))
     ) {
-        IconButton(
-            onClick = onBackButtonClicked,
-            modifier = Modifier
-                .padding(horizontal = dimensionResource(R.dimen.detail_topbar_back_button_padding_horizontal))
-                .background(MaterialTheme.colorScheme.surface, shape = CircleShape),
-        ) {
-            Icon(
-                imageVector = Icons.Default.ArrowBack,
-                contentDescription = stringResource(id = R.string.navigation_back)
-            )
-        }
-        Row(
-            horizontalArrangement = Arrangement.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(end = dimensionResource(R.dimen.detail_subject_padding_end))
-        ) {
-            Text(
-                text = stringResource(replyUiState.currentSelectedEmail.subject),
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+        item {
+            if (isFullScreen) {
+                ReplyDetailsScreenTopBar(
+                    onBackPressed,
+                    replyUiState,
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = dimensionResource(R.dimen.detail_topbar_padding_bottom))
+                )
+                )
+            }
+            ReplyEmailDetailsCard(
+                email = replyUiState.currentSelectedEmail,
+                mailboxType = replyUiState.currentMailbox,
+                isFullScreen = isFullScreen,
+                modifier = if (isFullScreen) {
+                    Modifier.padding(horizontal = dimensionResource(R.dimen.detail_card_outer_padding_horizontal))
+                } else {
+                    Modifier.padding(end = dimensionResource(R.dimen.detail_card_outer_padding_horizontal))
+                }
             )
         }
     }
 }
 
-@Composable
+
+            @Composable
 private fun ReplyEmailDetailsCard(
     email: Email,
     mailboxType: MailboxType,
