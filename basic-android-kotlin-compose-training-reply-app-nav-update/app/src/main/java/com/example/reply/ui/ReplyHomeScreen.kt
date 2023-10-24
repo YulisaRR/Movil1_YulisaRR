@@ -33,6 +33,7 @@ import androidx.compose.material.icons.filled.Drafts
 import androidx.compose.material.icons.filled.Inbox
 import androidx.compose.material.icons.filled.Report
 import androidx.compose.material.icons.filled.Send
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -56,11 +57,14 @@ import com.example.reply.R
 import com.example.reply.data.Email
 import com.example.reply.data.MailboxType
 import com.example.reply.data.local.LocalAccountsDataProvider
+import com.example.reply.ui.utils.ReplyContentType
 import com.example.reply.ui.utils.ReplyNavigationType
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ReplyHomeScreen(
     navigationType: ReplyNavigationType,
+    contentType: ReplyContentType,
     replyUiState: ReplyUiState,
     onTabPressed: (MailboxType) -> Unit,
     onEmailCardPressed: (Email) -> Unit,
