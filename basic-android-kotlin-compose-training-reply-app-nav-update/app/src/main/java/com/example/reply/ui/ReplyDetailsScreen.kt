@@ -122,11 +122,13 @@ private fun ReplyDetailsScreenTopBar(
 }
 
 
-            @Composable
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
 private fun ReplyEmailDetailsCard(
     email: Email,
     mailboxType: MailboxType,
     modifier: Modifier = Modifier,
+    isFullScreen: Boolean = false
 ) {
     val context = LocalContext.current
     val displayToast = { text: String ->
@@ -145,15 +147,19 @@ private fun ReplyEmailDetailsCard(
                 email,
                 Modifier.fillMaxWidth()
             )
-            Text(
-                text = stringResource(email.subject),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.outline,
-                modifier = Modifier.padding(
-                    top = dimensionResource(R.dimen.detail_content_padding_top),
-                    bottom = dimensionResource(R.dimen.detail_expanded_subject_body_spacing)
-                ),
-            )
+            if (isFullScreen) {
+                Spacer(modifier = Modifier.height(dimensionResource(R.dimen.detail_content_padding_top)))
+            } else {
+                Text(
+                    text = stringResource(email.subject),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.outline,
+                    modifier = Modifier.padding(
+                        top = dimensionResource(R.dimen.detail_content_padding_top),
+                        bottom = dimensionResource(R.dimen.detail_expanded_subject_body_spacing)
+                    ),
+                )
+            }
             Text(
                 text = stringResource(email.body),
                 style = MaterialTheme.typography.bodyLarge,
