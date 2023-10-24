@@ -114,6 +114,7 @@ fun ReplyHomeScreen(
         ) {
             ReplyAppContent(
                 navigationType = navigationType,
+                contentType = contentType,
                 replyUiState = replyUiState,
                 onTabPressed = onTabPressed,
                 onEmailCardPressed = onEmailCardPressed,
@@ -125,6 +126,7 @@ fun ReplyHomeScreen(
         if (replyUiState.isShowingHomepage) {
             ReplyAppContent(
                 navigationType = navigationType,
+                contentType = contentType,
                 replyUiState = replyUiState,
                 onTabPressed = onTabPressed,
                 onEmailCardPressed = onEmailCardPressed,
@@ -134,7 +136,8 @@ fun ReplyHomeScreen(
         } else {
             ReplyDetailsScreen(
                 replyUiState = replyUiState,
-                onBackPressed = onDetailScreenBackPressed,
+                isFullScreen = true,
+                onBackButtonClicked = onDetailScreenBackPressed,
                 modifier = modifier
             )
         }
